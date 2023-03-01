@@ -9,8 +9,12 @@ if [ $# -lt 2 ]; then
 else
     if [[ "$CONTENT" =~ .*"$2".* ]]; then
         echo "Se ha encontrado la palabra $2"
-        echo "La palabra '"$2"' aparece $(cat file1.txt | grep -o "$2" | wc -l) veces"
-        echo "Aparece por primera vez en la linea $(grep -w "$2" -c file1.txt)"
+
+        if [[ $(cat file1.txt | grep -o "$2" | wc -l) -lt 2 ]];then
+
+            echo "La palabra '"$2"' aparece $(cat file1.txt | grep -o "$2" | wc -l) vez"
+            echo "Aparece únicamente en la linea $(cat file1.txt | grep -n "$2" | cut -d: -f1)"
+        fi
     else
         echo "No se ha encontrado la palabra $2"
     fi
